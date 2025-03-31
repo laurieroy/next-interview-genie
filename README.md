@@ -4,6 +4,7 @@ An AI-powered Mock Interview practice platform.
 ## Tech Stack
 - [React 19](https://react.dev/) with [Next 15](https://nextjs.org/docs)
 - [Tailwind@4](https://tailwindcss.com/) with [ShadCN](https://ui.shadcn.com/docs/installation/next)
+- Auth - Firebase
 
 
 ## To run locally:
