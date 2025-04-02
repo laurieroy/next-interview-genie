@@ -84,3 +84,33 @@ export async function signIn(params: SignInParams) {
     };
   }
 }
+
+export async function isAuthenticated() {
+  const user = await getCurrentUser();
+
+  return !!user;
+}
+
+export async function getCurrentUser(): Promise<User | null> {
+  const cookieStore = await cookies();
+
+  const sessionCookie = cookieStore.get("session")?.value;
+
+  if (!sessionCookie) return null;
+
+  try {
+    const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
+    const userRecord = db.collection("users").doc(decodedClaims.uid).get();
+
+    if (!userRecord) return null;
+
+    return {
+      ...(await userRecord).data,
+      id: (await userRecord).id,
+    } as User;
+  } catch (error) {
+    console.error(error);
+
+    return null;
+  }
+}
